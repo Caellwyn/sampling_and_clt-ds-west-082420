@@ -315,6 +315,17 @@ On the weekends, the ridership is 90,000 people with a standard deviation of 8,0
 
 We can generate this bimodal distribution like so:
 
+
+```python
+
+means_list = []
+for _ in range(1000):
+    means_list.append(np.random.choice(total_average_rides, 40).mean())
+    
+fig, ax = plt.subplots()
+ax.hist(means_list)
+```
+
 # 3. Central Limit Theorem
 
 If we take repeated samples of a population, the sampling distribution of sample means will approximate to a normal distribution, no matter the underlying distribution!
