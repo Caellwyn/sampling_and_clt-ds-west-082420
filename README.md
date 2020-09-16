@@ -548,7 +548,7 @@ ax.set_xlabel('Average Ridership ');
 
 
 ```python
-#_SOLUTION__
+#__SOLUTION__
 
 means_list = []
 for _ in range(1000):
