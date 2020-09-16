@@ -111,7 +111,9 @@ ax.set_title('Distribution of Adult Male Systolic Blood Pressure')
 ax.set_xlabel('Systolic BP')
 ```
 
-Let's then imagine we develop an effective manner of random sampling, and simulate with numpy. Our sample size is 40 people.
+Let's imagine we want to check whether the above numbers are correct.  We develop an effective manner of random sampling. Our sample size will be 40.
+
+Below, we will simulate with numpy. 
 
 
 
@@ -139,22 +141,6 @@ for _ in range(number_of_samples):
 
 ```
 
-
-    ---------------------------------------------------------------------------
-
-    NameError                                 Traceback (most recent call last)
-
-    <ipython-input-3-bad7180eeee6> in <module>
-          5 
-          6 for _ in range(number_of_samples):
-    ----> 7     sample = np.random.choice(sys_pop, sample_size)
-          8     # collect the mean of each of the 1000 samples in sample stats
-          9     sample_stats.append(sample.mean())
-
-
-    NameError: name 'sys_pop' is not defined
-
-
 The collection of sample stats represents our __sampling distribution__
 
 An interesting property of this sampling distribution:
@@ -180,13 +166,6 @@ $\large\sigma _{x} = \frac{\sigma }{\sqrt{n}}$
 11/np.sqrt(40)
 ```
 
-
-
-
-    1.7392527130926085
-
-
-
 **What if we do not know the population sigma?**<br>
 If we do not know the population standard deviation, we can approximate it by using the sample standard deviation.
 
@@ -198,13 +177,6 @@ $\large\sigma _{x} ≈ \frac{s}{\sqrt{n}}$
 ```python
 np.random.normal(114, 11, 40).std()/np.sqrt(40)
 ```
-
-
-
-
-    1.711551865397192
-
-
 
 **Sample size impact on standard error of mean**<br>
 
@@ -262,33 +234,6 @@ print(f"""The mean number of hourly hits to Jelle's Marble Racing website
             {var_4}.
         """)
 ```
-
-    We sampled 40 bee hives and calcuted the mean colony population 
-              to be 75,690 bees. 75,690 is a point estimate of the population paramter
-    
-    We repeatedly sample 40 people at random from Seattle and 
-            measure their heart rate,then calculate the mean of each sample. 
-            We call the plot of this collection of statistics
-            the sampling distribution.
-            
-    There are exactly 58 Javan Rhino's left in the wild. 
-            Their mean length has been measured accurately at 5 feet.
-            This mean length is considered a population parameter. 
-            
-    If we plot a histogram of individual pistil lengths 
-          measured on 50 hibiscus flowers, we would be plotting the distribution 
-          of an attribute of our sample of hibiscus flowers. 
-            
-    Since every restaurant in Chicago is required by law to register
-            with the city, we can accurately count the number of active pizza restaurants
-            actively operating right now.  This group represents the population of actively 
-            operating, registered pizza restaurants in Chicago.
-        
-    The mean number of hourly hits to Jelle's Marble Racing website 
-                randomly sampled across a seven day period represents a sample
-                statistic.
-            
-
 
 
 # 2. Use numpy to randomly sample a distribution
