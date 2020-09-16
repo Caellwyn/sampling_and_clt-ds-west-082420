@@ -92,7 +92,7 @@ A sample statistic is a **point estimate** of the population parameter
 
 Let's create a population of systolic blood pressure of adult males in Chicago, assuming a mean of 114 mmHg with a standard deviation of 11 mmHg.  We will also assume the adult male population to be 1.5 million. 
 
-It is impossible to measure the systolic blood pressure of every man in Chicago, but let's assume multiple investigations have led to the conclusion the the mean and std of this population is 114 and 11, respecively. These are therefore estimators of the population parameter.
+It is impossible to measure the systolic blood pressure of every man in Chicago, but let's assume multiple investigations have led to the conclusion numbers avoe. These are therefore estimators of the population parameter.
 
 $\Large\hat\mu = 114$  
 $\Large\hat\sigma = 11$
@@ -106,8 +106,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 pop = int(1.5*10**6)
-# Use numpy to generate a normal distribution of the 
-sys_pop = np.random.normal(loc=114, scale=11, size=pop)
+# Use numpy to generate a normal distribution with the paramters above
 
 fig, ax = plt.subplots()
 
@@ -133,10 +132,28 @@ Let's then imagine we develop an effective manner of random sampling, and simula
 
 ```python
 sample_size = 40
-sample = np.random.choice(sys_pop, sample_size)
+sample = np.random.choice()
 
 # We can look at the distribution of the values in the sample.
 ```
+
+
+    ---------------------------------------------------------------------------
+
+    TypeError                                 Traceback (most recent call last)
+
+    <ipython-input-255-a6c32752e256> in <module>
+          1 sample_size = 40
+    ----> 2 sample = np.random.choice()
+          3 
+          4 # We can look at the distribution of the values in the sample.
+
+
+    mtrand.pyx in numpy.random.mtrand.RandomState.choice()
+
+
+    TypeError: choice() takes at least 1 positional argument (0 given)
+
 
 
 ```python
@@ -165,12 +182,24 @@ print(f'Sample standard deviation: {sample.std()}')
 print(f'Sample median: {np.median(sample)}')
 ```
 
-    Sample mean: 115.4907660259872
-    Sample standard deviation: 8.634151702239585
-    Sample median: 115.4998911419724
+    Sample mean: 116.82954837889629
+    Sample standard deviation: 13.235768438184078
+    Sample median: 116.88056519697305
 
 
 If we repeated this process, taking samples of the population repeatedly, we would get an array of sample statistics.
+
+
+```python
+number_of_samples = 1000
+sample_size = 40
+sample_stats = []
+
+for _ in range(number_of_samples):
+    # collect the mean of each of the 1000 samples in sample stats
+    pass
+
+```
 
 
 ```python
@@ -197,7 +226,7 @@ ax.set_ylabel('Count');
 ```
 
 
-![png](index_files/index_24_0.png)
+![png](index_files/index_25_0.png)
 
 
 An interesting property of this sampling distribution:
@@ -215,6 +244,8 @@ $\large\sigma _{x} = \frac{\sigma }{\sqrt{n}}$
 
 * $ \sigma _{x}$ = standard error of $\bar{x} $
 * $ \sigma $ = standard deviation of population
+
+### What is the standard error of the mean for systolic blood pressure example with known mean and standard deviation, assuming a sample size of 40
 
 **What if we do not know the population sigma?**<br>
 If we do not know the population standard deviation, we can approximate it by using the sample standard deviation.
@@ -273,12 +304,12 @@ sns.scatterplot(list(std_errors.keys()), list(std_errors.values()))
 
 
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x1a242ffa20>
+    <matplotlib.axes._subplots.AxesSubplot at 0x1a3ebe4f60>
 
 
 
 
-![png](index_files/index_31_1.png)
+![png](index_files/index_33_1.png)
 
 
 
@@ -293,12 +324,12 @@ sns.scatterplot(list(std_errors.keys()), list(std_errors.values()))
 
 
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x1a23d56908>
+    <matplotlib.axes._subplots.AxesSubplot at 0x124a5fac8>
 
 
 
 
-![png](index_files/index_32_1.png)
+![png](index_files/index_34_1.png)
 
 
 # Word Exercise 
@@ -395,21 +426,22 @@ You are given a "population" to sample from based on the type of distribution.
 
 
 ```python
-mccalister = ['Adam', 'Amanda','Chum', 'Dann', 
- 'Jacob', 'Jason', 'Johnhoy', 'Karim', 
-'Leana','Luluva', 'Matt', 'Maximilian' ]
+qpe = ['Matt', 'Sindhu', 'Jeff', 'Josh', 
+              'Reuben', 'Oz', 'Paul', 'Angelica',
+             'Elena', 'Prabhakar', 'Ali', 'Karim', 
+             'Sam', 'Hunter', 'Jon', 'Andrew', 'William']
 
 for n in range(1,4):
-    group = np.random.choice(mccalister, 4, replace=False)
+    group = np.random.choice(qpe, 4, replace=False)
     print(f'group {n}', group)
     for name in list(group):
-        mccalister.remove(name)
+        qpe.remove(name)
 
 ```
 
-    group 1 ['Adam' 'Jason' 'Matt' 'Dann']
-    group 2 ['Maximilian' 'Johnhoy' 'Chum' 'Jacob']
-    group 3 ['Leana' 'Luluva' 'Amanda' 'Karim']
+    group 1 ['Matt' 'Sindhu' 'Hunter' 'Jon']
+    group 2 ['Oz' 'William' 'Prabhakar' 'Angelica']
+    group 3 ['Sam' 'Josh' 'Reuben' 'Jeff']
 
 
 ## Group 1:
@@ -433,7 +465,7 @@ ax.set_title('Strikes Per Game')
 
 
 
-![png](index_files/index_41_1.png)
+![png](index_files/index_43_1.png)
 
 
 ## Group 2:
@@ -459,7 +491,7 @@ ax.set_xlabel("Pieces of Mail")
 
 
 
-![png](index_files/index_43_1.png)
+![png](index_files/index_45_1.png)
 
 
 # Group 3 
@@ -482,7 +514,7 @@ ax.set_xlabel('Minutes');
 
 
 
-![png](index_files/index_45_1.png)
+![png](index_files/index_47_1.png)
 
 
 # 3. Central Limit Theorem
@@ -530,448 +562,211 @@ import requests
 
 
 ```python
-! wget 'https://s3.amazonaws.com/capitalbikeshare-data/201905-capitalbikeshare-tripdata.zip' -O temp.zip
-! unzip temp.zip
+! curl https://divvy-tripdata.s3.amazonaws.com/Divvy_Trips_2020_Q1.zip -o 'divy_2020_Q1.zip'
+! unzip divy_2020_Q1.zip data
 ```
 
-    --2020-06-03 08:43:31--  https://s3.amazonaws.com/capitalbikeshare-data/201905-capitalbikeshare-tripdata.zip
-    Resolving s3.amazonaws.com... 52.216.160.245
-    Connecting to s3.amazonaws.com|52.216.160.245|:443... connected.
-    HTTP request sent, awaiting response... 200 OK
-    Length: 7837266 (7.5M) [application/zip]
-    Saving to: 'temp.zip'
+      % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                     Dload  Upload   Total   Spent    Left  Speed
+    100 15.1M  100 15.1M    0     0  3196k      0  0:00:04  0:00:04 --:--:-- 3213k
+    Archive:  divy_2020_Q1.zip
+      inflating: data/Divvy_Trips_2020_Q1.csv  
+       creating: data/__MACOSX/
+      inflating: data/__MACOSX/._Divvy_Trips_2020_Q1.csv  
+
+
+
+```python
+from src.data_import import prep_divy
+
+divy_trips = prep_divy()
+
+```
+
+
+```python
+# Remember the distribution has heavy right skew. 
+# Before proceeding, let's remove outliers which are greater than 3 standard deviations of the mean
+
+```
+
+
+```python
+# Store the number of rides in the original dataframe for comparison
+original_number_of_rides = divy_trips.shape[0]
+original_number_of_rides
+# your code here
+
+```
+
+
+
+
+    426887
+
+
+
+
+```python
+divy_trips.shape[0]
+```
+
+
+
+
+    424870
+
+
+
+
+```python
+# Divide the data set into casual and member groups
+
+casual = None
+member = None
+```
+
+
+```python
+# Calculate the mean and standard deviation of each group's ride times
+
+casual_mean_ride_time = casual.ride_time.mean()
+member_mean_ride_time = member.ride_time.mean()
+
+casual_std_ride_time = casual.ride_time.std()
+member_std_ride_time = member.ride_time.std()
+
+print(f"Casual mean ride time: {casual_mean_ride_time}")
+print(f"Member mean ride time: {member_mean_ride_time}")
+
+print(f"Casual std ride time: {casual_std_ride_time}")
+print(f"Member mean ride time: {member_std_ride_time}")
+```
+
+    Casual mean ride time: 1630.851988107715
+    Member mean ride time: 666.4950742759517
+    Casual std ride time: 1513.1592710299005
+    Member mean ride time: 528.4009595082442
+
+
+
+```python
+# Using np.random.choice take a sample of 40 ride times from the casual group
+np.random.seed(42)
+casual_sample = np.random.choice(casual.ride_time, 40)
+```
+
+
+```python
+# Calculate the mean and std of the casual sample (sample statistics)
+np.random.seed(42)
+
+casual_sample_mean = casual_sample.mean()
+casual_sample_std = casual_sample.std()
+print(f"casual_sample mean: {casual_sample_mean}")
+print(f"casual_sample std: {casual_sample_std}")
+
+```
+
+    casual_sample mean: 2027.35
+    casual_sample std: 1862.9139479589496
+
+
+
+```python
+# Using np.random.choice take a sample of 40 ride times from the member group
+np.random.seed(42)
+
+member_sample = np.random.choice(member.ride_time, 40)
+
+```
+
+
+```python
+# Calculate the mean and std of the member sample (sample statistics)
+member_sample_mean = member_sample.mean()
+member_sample_std = member_sample.std()
+print(f"member_sample mean: {member_sample_mean}")
+print(f"member_sample std: {member_sample_std}")
+```
+
+    member_sample mean: 728.05
+    member_sample std: 615.9052260697257
+
+
+
+```python
+# Repeat the sample 1000 times for both groups, and store the means of each of 1000 samples in two lists.
+
+member_means = []
+
+for _ in range(10000):
+    new_sample = np.random.choice(member.ride_time, 40)
+    member_means.append(new_sample.mean())
+
     
-    temp.zip             50%[=========>          ]   3.81M  1.80MB/s               ^C
-    Archive:  temp.zip
-      End-of-central-directory signature not found.  Either this file is not
-      a zipfile, or it constitutes one disk of a multi-part archive.  In the
-      latter case the central directory and zipfile comment will be found on
-      the last disk(s) of this archive.
-    unzip:  cannot find zipfile directory in one of temp.zip or
-            temp.zip.zip, and cannot find temp.zip.ZIP, period.
-
-
-
-```python
-df = pd.read_csv('201905-capitalbikeshare-tripdata.csv')
 ```
 
 
 ```python
-df.tail()
-```
+casual_means = []
 
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Duration</th>
-      <th>Start date</th>
-      <th>End date</th>
-      <th>Start station number</th>
-      <th>Start station</th>
-      <th>End station number</th>
-      <th>End station</th>
-      <th>Bike number</th>
-      <th>Member type</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>337699</th>
-      <td>434</td>
-      <td>2019-05-31 23:59:15</td>
-      <td>2019-06-01 00:06:30</td>
-      <td>31281</td>
-      <td>8th &amp; O St NW</td>
-      <td>31627</td>
-      <td>3rd &amp; M St NE</td>
-      <td>W23767</td>
-      <td>Member</td>
-    </tr>
-    <tr>
-      <th>337700</th>
-      <td>227</td>
-      <td>2019-05-31 23:59:45</td>
-      <td>2019-06-01 00:03:32</td>
-      <td>31201</td>
-      <td>15th &amp; P St NW</td>
-      <td>31229</td>
-      <td>New Hampshire Ave &amp; T St NW</td>
-      <td>W23691</td>
-      <td>Member</td>
-    </tr>
-    <tr>
-      <th>337701</th>
-      <td>1638</td>
-      <td>2019-05-31 23:59:45</td>
-      <td>2019-06-01 00:27:03</td>
-      <td>31261</td>
-      <td>21st St &amp; Constitution Ave NW</td>
-      <td>31247</td>
-      <td>Jefferson Dr &amp; 14th St SW</td>
-      <td>W20810</td>
-      <td>Member</td>
-    </tr>
-    <tr>
-      <th>337702</th>
-      <td>1621</td>
-      <td>2019-05-31 23:59:51</td>
-      <td>2019-06-01 00:26:53</td>
-      <td>31261</td>
-      <td>21st St &amp; Constitution Ave NW</td>
-      <td>31247</td>
-      <td>Jefferson Dr &amp; 14th St SW</td>
-      <td>W21714</td>
-      <td>Casual</td>
-    </tr>
-    <tr>
-      <th>337703</th>
-      <td>373</td>
-      <td>2019-05-31 23:59:51</td>
-      <td>2019-06-01 00:06:04</td>
-      <td>31281</td>
-      <td>8th &amp; O St NW</td>
-      <td>31201</td>
-      <td>15th &amp; P St NW</td>
-      <td>W21769</td>
-      <td>Member</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
-### Let's take a look at the shape of our dataset
-
-
-```python
-import seaborn as sns
-from scipy import stats
-
-fig, ax = plt.subplots(2,1, figsize=(10,10))
-sns.distplot(df.Duration, bins = 20, ax=ax[0])
-sns.boxplot(df.Duration, ax=ax[1])
+for _ in range(10000):
+    new_sample = np.random.choice(casual.ride_time, 40)
+    casual_means.append(new_sample.mean())
 
 ```
 
 
-
-
-    <matplotlib.axes._subplots.AxesSubplot at 0x1a35f11cc0>
-
-
-
-
-![png](index_files/index_58_1.png)
-
-
-The shape is difficult to see because of the outliers. Let's remove some to get a better sense of the shape
-
-
 ```python
-pop_no_fliers = df[np.abs(stats.zscore(df.Duration) > 3)]
+# plot the sampling distribution of both the casual and member groups
 
 fig, ax = plt.subplots()
-sns.distplot(pop_no_fliers.Duration)
+
+ax.hist(member_means, bins=100)
+ax.hist(casual_means, bins=100);
 ```
 
 
+![png](index_files/index_69_0.png)
 
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x1a267166d8>
-
-
-
-
-![png](index_files/index_60_1.png)
+# There are three ways we could calculate the Standard Error of the Mean
+    1. Since we are sampling from a large population of rides, we could calculate it using the population std.
+    2. Since we used numpy to randomly sampled the means, we could take the mean of the sample (should be very close to the number calculated above)
+    3. We could use our original samples to approximate the SEM. 
 
 
 
 ```python
-member_df = df[df['Member type'] == 'Member']
-casual_df = df[df['Member type'] == 'Casual']
-```
+# 1. Calculate it using the population std for both member and casual.
 
-
-    ---------------------------------------------------------------------------
-
-    NameError                                 Traceback (most recent call last)
-
-    <ipython-input-2-2ed6639d768d> in <module>
-    ----> 1 member_df = df[df['Member type'] == 'Member']
-          2 casual_df = df[df['Member type'] == 'Casual']
-
-
-    NameError: name 'df' is not defined
-
-
-
-```python
-plt.boxplot(member_df['Duration']);
-
-```
-
-
-![png](index_files/index_62_0.png)
-
-
-
-```python
-from scipy import stats
-print(member_df.shape)
-sum(stats.zscore(member_df.Duration)>3)
-```
-
-    (286079, 9)
-
-
-
-
-
-    1899
-
-
-
-
-```python
-member_df_nofliers = member_df[np.abs(stats.zscore(member_df.Duration)) < 3]
-member_df_nofliers.shape
-```
-
-
-
-
-    (284180, 9)
-
-
-
-
-```python
-import seaborn as sns
-fig, ax = plt.subplots()
-sns.distplot(member_df_nofliers.Duration, bins = 20, ax=ax);
-```
-
-
-![png](index_files/index_65_0.png)
-
-
-
-```python
-fig, ax = plt.subplots()
-sns.boxplot(casual_df.Duration)
-```
-
-
-
-
-    <matplotlib.axes._subplots.AxesSubplot at 0x1a2be4b630>
-
-
-
-
-![png](index_files/index_66_1.png)
-
-
-
-```python
-casual_df_nofliers = casual_df[np.abs(stats.zscore(casual_df.Duration)) < 3]
 ```
 
 
 ```python
-fig, ax = plt.subplots()
-sns.distplot(casual_df_nofliers.Duration, bins=20, ax=ax)
-```
+# 2. Calculate the standard error of the mean of both populations using the randomly generated samples
 
-
-
-
-    <matplotlib.axes._subplots.AxesSubplot at 0x1a264c89b0>
-
-
-
-
-![png](index_files/index_68_1.png)
-
-
-
-```python
-fig, ax = plt.subplots()
-sns.distplot(member_df_nofliers.Duration, bins = 20, ax=ax, color='blue');
-sns.distplot(casual_df_nofliers.Duration, bins=20, ax=ax, color='green')
-```
-
-
-
-
-    <matplotlib.axes._subplots.AxesSubplot at 0x1a2d81c5c0>
-
-
-
-
-![png](index_files/index_69_1.png)
-
-
-#### Get population statistics
-
-
-```python
-df.median()
-```
-
-
-
-
-    Duration                  724.0
-    Start station number    31266.0
-    End station number      31264.0
-    dtype: float64
-
-
-
-Let's treat the whole dataset as our population.
-
-
-```python
-pop_mean = df.Duration.mean()
-pop_std = df.Duration.std()
-print(f'pop_mean is {pop_mean} \npop_std is {pop_std}')
-```
-
-    pop_mean is 1138.3041865065263 
-    pop_std is 2282.5139701034595
-
-
-
-```python
-def one_sample_mean(population):
-    sample = np.random.choice(population, size=200, replace=True)
-    return sample.mean()
 ```
 
 
 ```python
-one_sample_mean(df.Duration)
+# 3. Use our samples to approximate the SEM for both casual and member
 ```
-
-
-
-
-    1237.33
-
-
-
-### When we take multiple samples from the distribution,and plot the means of each sample, the shape of the curve shifts
 
 
 ```python
-d = [one_sample_mean(df.Duration) for i in range(1000)]
-plt.hist(d, bins=50)
-
+# Calculate the z_score of the casual sample wrt the member sampling distribution
 ```
-
-
-
-
-    (array([ 3.,  5.,  8., 26., 25., 50., 50., 75., 72., 68., 68., 73., 58.,
-            60., 48., 55., 33., 20., 31., 27., 17., 12., 16., 18., 12.,  9.,
-            10.,  4.,  4.,  7., 13.,  2.,  6.,  0.,  2.,  1.,  0.,  1.,  4.,
-             0.,  0.,  2.,  1.,  0.,  0.,  0.,  0.,  0.,  2.,  2.]),
-     array([ 829.1   ,  852.8163,  876.5326,  900.2489,  923.9652,  947.6815,
-             971.3978,  995.1141, 1018.8304, 1042.5467, 1066.263 , 1089.9793,
-            1113.6956, 1137.4119, 1161.1282, 1184.8445, 1208.5608, 1232.2771,
-            1255.9934, 1279.7097, 1303.426 , 1327.1423, 1350.8586, 1374.5749,
-            1398.2912, 1422.0075, 1445.7238, 1469.4401, 1493.1564, 1516.8727,
-            1540.589 , 1564.3053, 1588.0216, 1611.7379, 1635.4542, 1659.1705,
-            1682.8868, 1706.6031, 1730.3194, 1754.0357, 1777.752 , 1801.4683,
-            1825.1846, 1848.9009, 1872.6172, 1896.3335, 1920.0498, 1943.7661,
-            1967.4824, 1991.1987, 2014.915 ]),
-     <a list of 50 Patch objects>)
-
-
-
-
-![png](index_files/index_77_1.png)
-
 
 
 ```python
-import seaborn as sns
-
-def central_limit_theorem_plotter(distribution, sample_size, num_samples, color='blue'):
-    sample_means = np.zeros(num_samples)
-    for idx, num in enumerate(range(num_samples)):
-        sample = np.random.choice(distribution, size=sample_size, replace=True)
-        sample_means[idx] = sample.mean()
-    sns.distplot(sample_means, bins=80, kde=True,  color=color)
-    title = f'Sample Distribution n = {sample_size} and number of samples = {num_samples},\
-    std error = {pop_std / num_samples}'
-    print(f'mean = {sample_means.mean()}')
-    plt.title(title)
+# Your Code Here
 ```
 
-### The number of samples drives the shape of the curve more than the sample size itself
 
 
 
-```python
-central_limit_theorem_plotter(df.Duration, 1000, 500);
-```
+    666.5359925
 
-    mean = 1136.515084
-
-
-
-![png](index_files/index_80_1.png)
-
-
-### Larger sample size, Fewer samples
-
-
-```python
-central_limit_theorem_plotter(df.Duration, 5000, 50);
-```
-
-    mean = 1132.6324960000002
-
-
-
-![png](index_files/index_82_1.png)
-
-
-* What happens as we increase the sample size?
-* How does the height of the distribution change? Why does it change?
-
-
-```python
-central_limit_theorem_plotter(member_df.Duration, 1000, 500, 'blue')
-central_limit_theorem_plotter(casual_df.Duration, 1000, 500, 'green')
-```
-
-    mean = 885.1660820000001
-    mean = 2523.241936
-
-
-
-![png](index_files/index_84_1.png)
 
