@@ -9,7 +9,7 @@
 2. Define and calculate standard error
 3. Use Numpy to randomly sample a distribution
 4. Describe the central limit theorem and connect it to our knowledge of distributions and sampling.
-5. Capital Bikeshare Example
+5. Divy Example Continued
 
 ## Probability vs Statistics
 - Probability starts with known probabilities and obtains how probable any particular observation would be
