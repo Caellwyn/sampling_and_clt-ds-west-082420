@@ -689,6 +689,70 @@ ax.set_title("""Sample means of number of minutes\n between people entering a Pi
 ax.set_xlabel("Number of minutes between customers")
 ```
 
+# Group 4
+
+Suppose the San Francisco's Muni Metro system has an average weekday ridership of 160,000 people with a standard deviation of 10,000.  
+
+On the weekends, the ridership is 90,000 people with a standard deviation of 8,000.
+
+We can generate this bimodal distribution like so:
+
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+weekday = list(np.random.normal(160000, 10000, 1000))
+weekend = list(np.random.normal(90000, 8000, 1000))
+
+total_average_rides = weekday + weekend
+
+fig, ax = plt.subplots()
+ax.hist(total_average_rides, bins = 50, normed=True)
+ax.set_title('Average Rides Per Day')
+ax.set_xlabel('Average Ridership ');
+```
+
+    /Users/johnmaxbarry/.local/lib/python3.7/site-packages/ipykernel_launcher.py:9: MatplotlibDeprecationWarning: 
+    The 'normed' kwarg was deprecated in Matplotlib 2.1 and will be removed in 3.1. Use 'density' instead.
+      if __name__ == '__main__':
+
+
+
+![png](index_files/index_59_1.png)
+
+
+
+```python
+# Sample from total average rides
+```
+
+
+```python
+#_SOLUTION__
+
+means_list = []
+for _ in range(1000):
+    means_list.append(np.random.choice(total_average_rides, 40).mean())
+    
+fig, ax = plt.subplots()
+ax.hist(means_list)
+```
+
+
+
+
+    (array([ 10.,  17.,  76., 176., 243., 215., 165.,  77.,  16.,   5.]),
+     array([107361.71802535, 111002.74237424, 114643.76672313, 118284.79107201,
+            121925.8154209 , 125566.83976979, 129207.86411867, 132848.88846756,
+            136489.91281645, 140130.93716533, 143771.96151422]),
+     <a list of 10 Patch objects>)
+
+
+
+
+![png](index_files/index_61_1.png)
+
+
 # 3. Central Limit Theorem
 
 If we take repeated samples of a population, the sampling distribution of sample means will approximate to a normal distribution, no matter the underlying distribution!
