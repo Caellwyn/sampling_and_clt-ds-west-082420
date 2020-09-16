@@ -542,8 +542,8 @@ import requests
 
 
 ```python
-! curl https://divvy-tripdata.s3.amazonaws.com/Divvy_Trips_2020_Q1.zip -o 'divy_2020_Q1.zip'
-! unzip divy_2020_Q1.zip data
+! curl https://divvy-tripdata.s3.amazonaws.com/Divvy_Trips_2020_Q1.zip -o 'data/divy_2020_Q1.zip'
+! unzip divy_2020_Q1.zip -d data
 ```
 
 
