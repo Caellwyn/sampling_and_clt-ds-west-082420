@@ -92,15 +92,46 @@ A sample statistic is a **point estimate** of the population parameter
 
 Let's create a population of systolic blood pressure of adult males in Chicago, assuming a mean of 114 mmHg with a standard deviation of 11 mmHg.  We will also assume the adult male population to be 1.5 million. 
 
-It is impossible to measure the systolic blood pressure of every man in Chicago, but let's assume multiple investigations have led to the conclusion the the mean and std of this population is 114 and 11, respecively. These are therefore estimators of the population parameter.
+It is impossible to measure the systolic blood pressure of every man in Chicago, but let's assume multiple investigations have led to the conclusion numbers avoe. These are therefore estimators of the population parameter.
 
 $\Large\hat\mu = 114$  
 $\Large\hat\sigma = 11$
 
 
 
+
+```python
+# Use numpy to generate a normal distribution of the 
+sys_pop = np.random.normal(loc=114, scale=11, size=pop)
+
+fig, ax = plt.subplots()
+
+sns.kdeplot(sys_pop, ax=ax, shade=True)
+ax.set_title('Distribution of Adult Male Systolic Blood Pressure')
+ax.set_xlabel('Systolic BP')
+```
+
+
+
+
+    Text(0.5, 0, 'Systolic BP')
+
+
+
+
+![png](index_files/index_15_1.png)
+
+
 Let's then imagine we develop an effective manner of random sampling, and simulate with numpy. Our sample size is 40 people.
 
+
+
+```python
+sample_size = 40
+sample = np.random.choice(sys_pop, sample_size)
+
+# We can look at the distribution of the values in the sample.
+```
 
 We can then calculate the sample statistics:
 
@@ -124,12 +155,38 @@ $\large\sigma _{x} = \frac{\sigma }{\sqrt{n}}$
 * $ \sigma _{x}$ = standard error of $\bar{x} $
 * $ \sigma $ = standard deviation of population
 
+### What is the standard error of the mean for systolic blood pressure example with known mean and standard deviation, assuming a sample size of 40
+
+
+```python
+11/np.sqrt(40)
+```
+
+
+
+
+    1.7392527130926085
+
+
+
 **What if we do not know the population sigma?**<br>
 If we do not know the population standard deviation, we can approximate it by using the sample standard deviation.
 
 $\large\sigma _{x} ≈ \frac{s}{\sqrt{n}}$
 
 * s = sample standard deviation
+
+
+```python
+np.random.normal(114, 11, 40).std()/np.sqrt(40)
+```
+
+
+
+
+    1.7713767393865683
+
+
 
 **Sample size impact on standard error of mean**<br>
 
@@ -254,17 +311,17 @@ ax.hist(sample_means, bins = 20)
 
 
 
-    (array([  1.,   0.,   1.,   1.,   5.,  28.,  34.,  68.,  83., 100., 115.,
-            167., 111., 121.,  67.,  51.,  24.,  12.,   6.,   5.]),
-     array([6.26 , 6.343, 6.426, 6.509, 6.592, 6.675, 6.758, 6.841, 6.924,
-            7.007, 7.09 , 7.173, 7.256, 7.339, 7.422, 7.505, 7.588, 7.671,
-            7.754, 7.837, 7.92 ]),
+    (array([  2.,   6.,   2.,  17.,  30.,  45.,  90., 102., 114., 139., 122.,
+            107., 103.,  62.,  32.,  18.,   7.,   1.,   0.,   1.]),
+     array([6.46 , 6.539, 6.618, 6.697, 6.776, 6.855, 6.934, 7.013, 7.092,
+            7.171, 7.25 , 7.329, 7.408, 7.487, 7.566, 7.645, 7.724, 7.803,
+            7.882, 7.961, 8.04 ]),
      <a list of 20 Patch objects>)
 
 
 
 
-![png](index_files/index_31_1.png)
+![png](index_files/index_36_1.png)
 
 
 ## Group 2:
@@ -293,7 +350,7 @@ ax.set_xlabel('Number of pieces of mail')
 
 
 
-![png](index_files/index_33_1.png)
+![png](index_files/index_38_1.png)
 
 
 # Group 3 
@@ -322,7 +379,7 @@ ax.set_xlabel("Number of minutes between customers")
 
 
 
-![png](index_files/index_35_1.png)
+![png](index_files/index_40_1.png)
 
 
 # 3. Central Limit Theorem
@@ -358,20 +415,91 @@ Capital bike share is trying to figure out their pricing for members versus non-
 
 Let's head over [here](https://s3.amazonaws.com/capitalbikeshare-data/index.html) for some DC bike data!
 
-### Let's take a look at the shape of our dataset
 
-The shape is difficult to see because of the outliers. Let's remove some to get a better sense of the shape
+```python
+# Remember the distribution has heavy right skew. 
+# Before proceeding, let's remove outliers which are greater than 3 standard deviations of the mean
 
-#### Get population statistics
+divy_trips = divy_trips[divy_trips.ride_time<divy_trips.ride_time.std()*3]
 
-Let's treat the whole dataset as our population.
-
-### When we take multiple samples from the distribution,and plot the means of each sample, the shape of the curve shifts
-
-### The number of samples drives the shape of the curve more than the sample size itself
+```
 
 
-### Larger sample size, Fewer samples
+```python
+# How many rides were lost
+original_number_of_rides - divy_trips.shape[0]
+```
 
-* What happens as we increase the sample size?
-* How does the height of the distribution change? Why does it change?
+
+
+
+    2017
+
+
+
+
+```python
+# Divide the data set into casual and member groups
+
+casual = divy_trips[divy_trips.member_casual == 'casual']
+member = divy_trips[divy_trips.member_casual == 'member']
+```
+
+# There are three ways we could calculate the Standard Error of the Mean
+    1. Since we are sampling from a large population of rides, we could calculate it using the population std.
+    2. Since we used numpy to randomly sampled the means, we could take the mean of the sample (should be very close to the number calculated above)
+    3. We could use our original samples to approximate the SEM. 
+
+
+
+```python
+# 1. Calculate it using the population std for both member and casual.
+
+sem_member = member.ride_time.std()/np.sqrt(40)
+sem_casual = casual.ride_time.std()/np.sqrt(40)
+
+print(f"SEM Member: {sem_member}")
+print(f"SEM Casual: {sem_casual}")
+```
+
+    SEM Member: 83.54752749322284
+    SEM Casual: 239.2514879527262
+
+
+
+```python
+# 2. Calculate the standard error of the mean of both populations using the randomly generated samples
+
+sem_member = np.std(member_means)
+sem_casual = np.std(casual_means)
+print(f"Standard error of mean (member): {sem_member}")
+print(f"Standard error of mean (casual): {sem_casual}")
+```
+
+    Standard error of mean (member): 82.83579266070582
+    Standard error of mean (casual): 241.2689116902536
+
+
+
+```python
+sem_approximate_casual = casual_sample_mean/np.sqrt(40)
+```
+
+
+```python
+sem_approximate_member = member_sample_mean/np.sqrt(40)
+```
+
+
+```python
+
+(casual_sample.mean() - np.mean(member_means))/sem_member
+
+```
+
+
+
+
+    16.427850374703045
+
+
