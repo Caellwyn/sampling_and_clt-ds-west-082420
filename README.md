@@ -117,27 +117,9 @@ ax.set_title('Distribution of Adult Male Systolic Blood Pressure')
 ax.set_xlabel('Systolic BP')
 ```
 
+Let's imagine we want to check whether the above numbers are correct.  We develop an effective manner of random sampling. Our sample size will be 40.
 
-    ---------------------------------------------------------------------------
-
-    NameError                                 Traceback (most recent call last)
-
-    <ipython-input-1-6d9d95e6ddee> in <module>
-         10 fig, ax = plt.subplots()
-         11 
-    ---> 12 sns.kdeplot(sys_pop, ax=ax, shade=True)
-         13 ax.set_title('Distribution of Adult Male Systolic Blood Pressure')
-         14 ax.set_xlabel('Systolic BP')
-
-
-    NameError: name 'sys_pop' is not defined
-
-
-
-![png](index_files/index_15_1.png)
-
-
-Let's then imagine we develop an effective manner of random sampling, and simulate with numpy. Our sample size is 40 people.
+Below, we will simulate with numpy. 
 
 
 
@@ -188,10 +170,6 @@ ax.set_title('Sampling Distribution\n of Systolic BP')
 ax.set_xlabel("Systolic Blood Pressure")
 ax.set_ylabel('Count');
 ```
-
-
-![png](index_files/index_24_0.png)
-
 
 An interesting property of this sampling distribution:
     
@@ -266,22 +244,6 @@ sns.scatterplot(list(std_errors.keys()), list(std_errors.values()))
 ```
 
 
-    ---------------------------------------------------------------------------
-
-    NameError                                 Traceback (most recent call last)
-
-    <ipython-input-8-460acf2b5649> in <module>
-    ----> 1 std_errors = standard_error(sys_pop, 1000)
-          2 
-          3 fig, ax = plt.subplots()
-          4 
-          5 sns.scatterplot(list(std_errors.keys()), list(std_errors.values()))
-
-
-    NameError: name 'sys_pop' is not defined
-
-
-
 ```python
 std_errors = standard_error(sys_pop, 1000, population_std=114)
 
@@ -289,22 +251,6 @@ fig, ax = plt.subplots()
 
 sns.scatterplot(list(std_errors.keys()), list(std_errors.values()))
 ```
-
-
-    ---------------------------------------------------------------------------
-
-    NameError                                 Traceback (most recent call last)
-
-    <ipython-input-9-9a5d33d6c229> in <module>
-    ----> 1 std_errors = standard_error(sys_pop, 1000, population_std=114)
-          2 
-          3 fig, ax = plt.subplots()
-          4 
-          5 sns.scatterplot(list(std_errors.keys()), list(std_errors.values()))
-
-
-    NameError: name 'sys_pop' is not defined
-
 
 # Word Exercise 
 Put the variables in the correct place.
@@ -352,33 +298,6 @@ print(f"""The mean number of hourly hits to Jelle's Marble Racing website
         """)
 ```
 
-    We sampled 40 bee hives and calcuted the mean colony population 
-              to be 75,690 bees. 75,690 is a population of the population paramter
-    
-    We repeatedly sample 40 people at random from Seattle and 
-            measure their heart rate,then calculate the mean of each sample. 
-            We call the plot of this collection of statistics
-            the sample distribution.
-            
-    There are exactly 58 Javan Rhino's left in the wild. 
-            Their mean length has been measured accurately at 5 feet.
-            This mean length is considered a population point estimate. 
-            
-    If we plot a histogram of individual pistil lengths 
-          measured on 50 hibiscus flowers, we would be plotting the distribution 
-          of an attribute of our statistic of hibiscus flowers. 
-            
-    Since every restaurant in Chicago is required by law to register
-            with the city, we can accurately count the number of active pizza restaurants
-             operating right now.  This group represents the parameter of actively 
-            operating, registered pizza restaurants in Chicago.
-        
-    The mean number of hourly hits to Jelle's Marble Racing website 
-                randomly sampled across a seven day period represents a sample
-                sampling.
-            
-
-
 
 # 2. Use numpy to randomly sample a distribution
 
@@ -406,37 +325,10 @@ from src.student_list import student_first_names
 
 ```
 
-    The autoreload extension is already loaded. To reload it, use:
-      %reload_ext autoreload
-
-
 
 ```python
 student_first_names
 ```
-
-
-
-
-    ['Ali',
-     'Andrew',
-     'Angie',
-     'Elena',
-     'Hunter',
-     'Jeffrey',
-     'Jonathan',
-     'Josh',
-     'Karim',
-     'Matthew',
-     'Ozair',
-     'Paul',
-     'Prabhakar',
-     'Reuben',
-     'Sam',
-     'Sindhu',
-     'William']
-
-
 
 
 ```python
@@ -448,12 +340,6 @@ for n in range(1,4):
         qpe.remove(name)
 print(f"group 4: {qpe}")
 ```
-
-    group 1 ['Karim' 'Matthew' 'William' 'Josh']
-    group 2 ['Ali' 'Jonathan' 'Elena' 'Sindhu']
-    group 3 ['Andrew' 'Paul' 'Reuben' 'Prabhakar']
-    group 4: ['Angie', 'Hunter', 'Jeffrey', 'Ozair', 'Sam']
-
 
 ## Group 1:
 
@@ -520,15 +406,6 @@ ax.set_title('Average Rides Per Day')
 ax.set_xlabel('Average Ridership ');
 ```
 
-    /Users/johnmaxbarry/.local/lib/python3.7/site-packages/ipykernel_launcher.py:9: MatplotlibDeprecationWarning: 
-    The 'normed' kwarg was deprecated in Matplotlib 2.1 and will be removed in 3.1. Use 'density' instead.
-      if __name__ == '__main__':
-
-
-
-![png](index_files/index_50_1.png)
-
-
 
 ```python
 # Sample from total average rides
@@ -545,21 +422,6 @@ for _ in range(1000):
 fig, ax = plt.subplots()
 ax.hist(means_list)
 ```
-
-
-
-
-    (array([ 10.,  17.,  76., 176., 243., 215., 165.,  77.,  16.,   5.]),
-     array([107361.71802535, 111002.74237424, 114643.76672313, 118284.79107201,
-            121925.8154209 , 125566.83976979, 129207.86411867, 132848.88846756,
-            136489.91281645, 140130.93716533, 143771.96151422]),
-     <a list of 10 Patch objects>)
-
-
-
-
-![png](index_files/index_52_1.png)
-
 
 # 3. Central Limit Theorem
 
