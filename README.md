@@ -92,7 +92,7 @@ A sample statistic is a **point estimate** of the population parameter
 
 Let's create a population of systolic blood pressure of adult males in Chicago, assuming a mean of 114 mmHg with a standard deviation of 11 mmHg.  We will also assume the adult male population to be 1.5 million. 
 
-It is impossible to measure the systolic blood pressure of every man in Chicago, but let's assume multiple investigations have led to the conclusion numbers avoe. These are therefore estimators of the population parameter.
+It is impossible to measure the systolic blood pressure of every man in Chicago, but let's assume multiple investigations have led to the conclusion numbers above. These are therefore estimators of the population parameter.
 
 $\Large\hat\mu = 114$  
 $\Large\hat\sigma = 11$
@@ -104,6 +104,8 @@ $\Large\hat\sigma = 11$
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
+%load_ext autoreload
+%autoreload 2
 
 pop = int(1.5*10**6)
 # Use numpy to generate a normal distribution with the paramters above
@@ -116,10 +118,19 @@ ax.set_xlabel('Systolic BP')
 ```
 
 
+    ---------------------------------------------------------------------------
+
+    NameError                                 Traceback (most recent call last)
+
+    <ipython-input-1-6d9d95e6ddee> in <module>
+         10 fig, ax = plt.subplots()
+         11 
+    ---> 12 sns.kdeplot(sys_pop, ax=ax, shade=True)
+         13 ax.set_title('Distribution of Adult Male Systolic Blood Pressure')
+         14 ax.set_xlabel('Systolic BP')
 
 
-    Text(0.5, 0, 'Systolic BP')
-
+    NameError: name 'sys_pop' is not defined
 
 
 
@@ -138,40 +149,11 @@ sample = np.random.choice()
 ```
 
 
-    ---------------------------------------------------------------------------
-
-    TypeError                                 Traceback (most recent call last)
-
-    <ipython-input-255-a6c32752e256> in <module>
-          1 sample_size = 40
-    ----> 2 sample = np.random.choice()
-          3 
-          4 # We can look at the distribution of the values in the sample.
-
-
-    mtrand.pyx in numpy.random.mtrand.RandomState.choice()
-
-
-    TypeError: choice() takes at least 1 positional argument (0 given)
-
-
-
 ```python
 fig, ax = plt.subplots()
 sns.distplot(sample, ax=ax, bins=15)
 ax.set_title('Sample Distribution of Systolic BP Measurements')
 ```
-
-
-
-
-    Text(0.5, 1.0, 'Sample Distribution of Systolic BP Measurements')
-
-
-
-
-![png](index_files/index_18_1.png)
-
 
 We can then calculate the sample statistics:
 
@@ -181,11 +163,6 @@ print(f'Sample mean: {sample.mean()}')
 print(f'Sample standard deviation: {sample.std()}')
 print(f'Sample median: {np.median(sample)}')
 ```
-
-    Sample mean: 116.82954837889629
-    Sample standard deviation: 13.235768438184078
-    Sample median: 116.88056519697305
-
 
 If we repeated this process, taking samples of the population repeatedly, we would get an array of sample statistics.
 
@@ -201,19 +178,6 @@ for _ in range(number_of_samples):
 
 ```
 
-
-```python
-number_of_samples = 1000
-sample_size = 50
-sample_stats = []
-
-for _ in range(number_of_samples):
-    sample = np.random.choice(sys_pop, sample_size)
-    # collect the mean of each of the 1000 samples in sample stats
-    sample_stats.append(sample.mean())
-
-```
-
 The collection of sample stats represents our __sampling distribution__
 
 
@@ -226,7 +190,7 @@ ax.set_ylabel('Count');
 ```
 
 
-![png](index_files/index_25_0.png)
+![png](index_files/index_24_0.png)
 
 
 An interesting property of this sampling distribution:
@@ -302,14 +266,19 @@ sns.scatterplot(list(std_errors.keys()), list(std_errors.values()))
 ```
 
 
+    ---------------------------------------------------------------------------
+
+    NameError                                 Traceback (most recent call last)
+
+    <ipython-input-8-460acf2b5649> in <module>
+    ----> 1 std_errors = standard_error(sys_pop, 1000)
+          2 
+          3 fig, ax = plt.subplots()
+          4 
+          5 sns.scatterplot(list(std_errors.keys()), list(std_errors.values()))
 
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x1a3ebe4f60>
-
-
-
-
-![png](index_files/index_33_1.png)
+    NameError: name 'sys_pop' is not defined
 
 
 
@@ -322,14 +291,19 @@ sns.scatterplot(list(std_errors.keys()), list(std_errors.values()))
 ```
 
 
+    ---------------------------------------------------------------------------
+
+    NameError                                 Traceback (most recent call last)
+
+    <ipython-input-9-9a5d33d6c229> in <module>
+    ----> 1 std_errors = standard_error(sys_pop, 1000, population_std=114)
+          2 
+          3 fig, ax = plt.subplots()
+          4 
+          5 sns.scatterplot(list(std_errors.keys()), list(std_errors.values()))
 
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x124a5fac8>
-
-
-
-
-![png](index_files/index_34_1.png)
+    NameError: name 'sys_pop' is not defined
 
 
 # Word Exercise 
@@ -426,22 +400,59 @@ You are given a "population" to sample from based on the type of distribution.
 
 
 ```python
-qpe = ['Matt', 'Sindhu', 'Jeff', 'Josh', 
-              'Reuben', 'Oz', 'Paul', 'Angelica',
-             'Elena', 'Prabhakar', 'Ali', 'Karim', 
-             'Sam', 'Hunter', 'Jon', 'Andrew', 'William']
-
-for n in range(1,4):
-    group = np.random.choice(qpe, 4, replace=False)
-    print(f'group {n}', group)
-    for name in list(group):
-        qpe.remove(name)
+%load_ext autoreload
+%autoreload 2
+from src.student_list import student_first_names
 
 ```
 
-    group 1 ['Matt' 'Sindhu' 'Hunter' 'Jon']
-    group 2 ['Oz' 'William' 'Prabhakar' 'Angelica']
-    group 3 ['Sam' 'Josh' 'Reuben' 'Jeff']
+    The autoreload extension is already loaded. To reload it, use:
+      %reload_ext autoreload
+
+
+
+```python
+student_first_names
+```
+
+
+
+
+    ['Ali',
+     'Andrew',
+     'Angie',
+     'Elena',
+     'Hunter',
+     'Jeffrey',
+     'Jonathan',
+     'Josh',
+     'Karim',
+     'Matthew',
+     'Ozair',
+     'Paul',
+     'Prabhakar',
+     'Reuben',
+     'Sam',
+     'Sindhu',
+     'William']
+
+
+
+
+```python
+qpe = student_first_names
+for n in range(1,4):
+    group = np.random.choice(student_first_names, 4, replace=False)
+    print(f'group {n}', group)
+    for name in list(group):
+        qpe.remove(name)
+print(f"group 4: {qpe}")
+```
+
+    group 1 ['Karim' 'Matthew' 'William' 'Josh']
+    group 2 ['Ali' 'Jonathan' 'Elena' 'Sindhu']
+    group 3 ['Andrew' 'Paul' 'Reuben' 'Prabhakar']
+    group 4: ['Angie', 'Hunter', 'Jeffrey', 'Ozair', 'Sam']
 
 
 ## Group 1:
@@ -456,17 +467,6 @@ fig, ax = plt.subplots()
 ax.bar(range(0,12), np.unique(population, return_counts=True)[1])
 ax.set_title('Strikes Per Game')
 ```
-
-
-
-
-    Text(0.5, 1.0, 'Strikes Per Game')
-
-
-
-
-![png](index_files/index_43_1.png)
-
 
 ## Group 2:
 
@@ -483,17 +483,6 @@ ax.set_title('Distribution of Pieces of Mail/Week')
 ax.set_xlabel("Pieces of Mail")
 ```
 
-
-
-
-    Text(0.5, 0, 'Pieces of Mail')
-
-
-
-
-![png](index_files/index_45_1.png)
-
-
 # Group 3 
 
 The population data for the number of minutes between customers arriving in a Piggly Wiggly is stored in the variable piggly_population.
@@ -507,15 +496,6 @@ ax.hist(piggly_population, bins = 50, normed=True)
 ax.set_title('Sample Means of Time Between Piggle Wiggly Customers')
 ax.set_xlabel('Minutes');
 ```
-
-    /Users/johnmaxbarry/.local/lib/python3.7/site-packages/ipykernel_launcher.py:4: MatplotlibDeprecationWarning: 
-    The 'normed' kwarg was deprecated in Matplotlib 2.1 and will be removed in 3.1. Use 'density' instead.
-      after removing the cwd from sys.path.
-
-
-
-![png](index_files/index_47_1.png)
-
 
 # 3. Central Limit Theorem
 
@@ -566,15 +546,6 @@ import requests
 ! unzip divy_2020_Q1.zip data
 ```
 
-      % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                     Dload  Upload   Total   Spent    Left  Speed
-    100 15.1M  100 15.1M    0     0  3196k      0  0:00:04  0:00:04 --:--:-- 3213k
-    Archive:  divy_2020_Q1.zip
-      inflating: data/Divvy_Trips_2020_Q1.csv  
-       creating: data/__MACOSX/
-      inflating: data/__MACOSX/._Divvy_Trips_2020_Q1.csv  
-
-
 
 ```python
 from src.data_import import prep_divy
@@ -583,12 +554,9 @@ divy_trips = prep_divy()
 
 ```
 
+Remember the distribution has heavy right skew. 
+Before proceeding, let's remove outliers which are greater than 3 standard deviations of the mean
 
-```python
-# Remember the distribution has heavy right skew. 
-# Before proceeding, let's remove outliers which are greater than 3 standard deviations of the mean
-
-```
 
 
 ```python
@@ -600,23 +568,9 @@ original_number_of_rides
 ```
 
 
-
-
-    426887
-
-
-
-
 ```python
 divy_trips.shape[0]
 ```
-
-
-
-
-    424870
-
-
 
 
 ```python
@@ -629,12 +583,7 @@ member = None
 
 ```python
 # Calculate the mean and standard deviation of each group's ride times
-
-casual_mean_ride_time = casual.ride_time.mean()
-member_mean_ride_time = member.ride_time.mean()
-
-casual_std_ride_time = casual.ride_time.std()
-member_std_ride_time = member.ride_time.std()
+# Your code here
 
 print(f"Casual mean ride time: {casual_mean_ride_time}")
 print(f"Member mean ride time: {member_mean_ride_time}")
@@ -643,77 +592,46 @@ print(f"Casual std ride time: {casual_std_ride_time}")
 print(f"Member mean ride time: {member_std_ride_time}")
 ```
 
-    Casual mean ride time: 1630.851988107715
-    Member mean ride time: 666.4950742759517
-    Casual std ride time: 1513.1592710299005
-    Member mean ride time: 528.4009595082442
-
-
 
 ```python
 # Using np.random.choice take a sample of 40 ride times from the casual group
 np.random.seed(42)
-casual_sample = np.random.choice(casual.ride_time, 40)
+# Your code here
 ```
 
 
 ```python
 # Calculate the mean and std of the casual sample (sample statistics)
+
 np.random.seed(42)
 
-casual_sample_mean = casual_sample.mean()
-casual_sample_std = casual_sample.std()
+casual_sample_mean = None
+casual_sample_std = None
 print(f"casual_sample mean: {casual_sample_mean}")
 print(f"casual_sample std: {casual_sample_std}")
 
 ```
-
-    casual_sample mean: 2027.35
-    casual_sample std: 1862.9139479589496
-
 
 
 ```python
 # Using np.random.choice take a sample of 40 ride times from the member group
 np.random.seed(42)
 
-member_sample = np.random.choice(member.ride_time, 40)
 
 ```
 
 
 ```python
 # Calculate the mean and std of the member sample (sample statistics)
-member_sample_mean = member_sample.mean()
-member_sample_std = member_sample.std()
+member_sample_mean = None
+member_sample_std = None
 print(f"member_sample mean: {member_sample_mean}")
 print(f"member_sample std: {member_sample_std}")
 ```
 
-    member_sample mean: 728.05
-    member_sample std: 615.9052260697257
-
-
 
 ```python
 # Repeat the sample 1000 times for both groups, and store the means of each of 1000 samples in two lists.
-
-member_means = []
-
-for _ in range(10000):
-    new_sample = np.random.choice(member.ride_time, 40)
-    member_means.append(new_sample.mean())
-
-    
-```
-
-
-```python
-casual_means = []
-
-for _ in range(10000):
-    new_sample = np.random.choice(casual.ride_time, 40)
-    casual_means.append(new_sample.mean())
 
 ```
 
@@ -726,10 +644,6 @@ fig, ax = plt.subplots()
 ax.hist(member_means, bins=100)
 ax.hist(casual_means, bins=100);
 ```
-
-
-![png](index_files/index_69_0.png)
-
 
 # There are three ways we could calculate the Standard Error of the Mean
     1. Since we are sampling from a large population of rides, we could calculate it using the population std.
@@ -763,10 +677,3 @@ ax.hist(casual_means, bins=100);
 ```python
 # Your Code Here
 ```
-
-
-
-
-    666.5359925
-
-
