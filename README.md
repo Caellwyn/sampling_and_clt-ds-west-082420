@@ -92,7 +92,7 @@ A sample statistic is a **point estimate** of the population parameter
 
 Let's create a population of systolic blood pressure of adult males in Chicago, assuming a mean of 114 mmHg with a standard deviation of 11 mmHg.  We will also assume the adult male population to be 1.5 million. 
 
-It is impossible to measure the systolic blood pressure of every man in Chicago, but let's assume multiple investigations have led to the conclusion numbers avoe. These are therefore estimators of the population parameter.
+It is impossible to measure the systolic blood pressure of every man in Chicago, but let's assume multiple investigations have led to the conclusion numbers above. These are therefore estimators of the population parameter.
 
 $\Large\hat\mu = 114$  
 $\Large\hat\sigma = 11$
@@ -111,17 +111,6 @@ ax.set_title('Distribution of Adult Male Systolic Blood Pressure')
 ax.set_xlabel('Systolic BP')
 ```
 
-
-
-
-    Text(0.5, 0, 'Systolic BP')
-
-
-
-
-![png](index_files/index_15_1.png)
-
-
 Let's then imagine we develop an effective manner of random sampling, and simulate with numpy. Our sample size is 40 people.
 
 
@@ -136,6 +125,35 @@ sample = np.random.choice(sys_pop, sample_size)
 We can then calculate the sample statistics:
 
 If we repeated this process, taking samples of the population repeatedly, we would get an array of sample statistics.
+
+
+```python
+number_of_samples = 1000
+sample_size = 40
+sample_stats = []
+
+for _ in range(number_of_samples):
+    sample = np.random.choice(sys_pop, sample_size)
+    # collect the mean of each of the 1000 samples in sample stats
+    sample_stats.append(sample.mean())
+
+```
+
+
+    ---------------------------------------------------------------------------
+
+    NameError                                 Traceback (most recent call last)
+
+    <ipython-input-3-bad7180eeee6> in <module>
+          5 
+          6 for _ in range(number_of_samples):
+    ----> 7     sample = np.random.choice(sys_pop, sample_size)
+          8     # collect the mean of each of the 1000 samples in sample stats
+          9     sample_stats.append(sample.mean())
+
+
+    NameError: name 'sys_pop' is not defined
+
 
 The collection of sample stats represents our __sampling distribution__
 
@@ -184,7 +202,7 @@ np.random.normal(114, 11, 40).std()/np.sqrt(40)
 
 
 
-    1.7713767393865683
+    1.711551865397192
 
 
 
@@ -308,22 +326,6 @@ fig, ax = plt.subplots()
 ax.hist(sample_means, bins = 20)
 ```
 
-
-
-
-    (array([  2.,   6.,   2.,  17.,  30.,  45.,  90., 102., 114., 139., 122.,
-            107., 103.,  62.,  32.,  18.,   7.,   1.,   0.,   1.]),
-     array([6.46 , 6.539, 6.618, 6.697, 6.776, 6.855, 6.934, 7.013, 7.092,
-            7.171, 7.25 , 7.329, 7.408, 7.487, 7.566, 7.645, 7.724, 7.803,
-            7.882, 7.961, 8.04 ]),
-     <a list of 20 Patch objects>)
-
-
-
-
-![png](index_files/index_36_1.png)
-
-
 ## Group 2:
 
 Stored in the variable below is the number of pieces of mail that arrive per week at your door for each of the 4500 weeks in your life.  
@@ -342,17 +344,6 @@ ax.set_title('Sample Means of Pieces of Mail\n Arriving at your door')
 ax.set_xlabel('Number of pieces of mail')
 ```
 
-
-
-
-    Text(0.5, 0, 'Number of pieces of mail')
-
-
-
-
-![png](index_files/index_38_1.png)
-
-
 # Group 3 
 
 The population data for the number of minutes between customers arriving in a Piggly Wiggly is stored in the variable piggly_population.
@@ -370,17 +361,6 @@ ax.hist(sample_means, bins = 30);
 ax.set_title("""Sample means of number of minutes\n between people entering a Piggly Wiggly""")
 ax.set_xlabel("Number of minutes between customers")
 ```
-
-
-
-
-    Text(0.5, 0, 'Number of minutes between customers')
-
-
-
-
-![png](index_files/index_40_1.png)
-
 
 # 3. Central Limit Theorem
 
@@ -415,6 +395,10 @@ Capital bike share is trying to figure out their pricing for members versus non-
 
 Let's head over [here](https://s3.amazonaws.com/capitalbikeshare-data/index.html) for some DC bike data!
 
+Remember the distribution has heavy right skew. 
+Before proceeding, let's remove outliers which are greater than 3 standard deviations of the mean
+
+
 
 ```python
 # Remember the distribution has heavy right skew. 
@@ -431,18 +415,81 @@ original_number_of_rides - divy_trips.shape[0]
 ```
 
 
-
-
-    2017
-
-
-
-
 ```python
 # Divide the data set into casual and member groups
 
 casual = divy_trips[divy_trips.member_casual == 'casual']
 member = divy_trips[divy_trips.member_casual == 'member']
+```
+
+
+```python
+# Calculate the mean and standard deviation of each group's ride times
+
+casual_mean_ride_time = casual.ride_time.mean()
+member_mean_ride_time = member.ride_time.mean()
+
+casual_std_ride_time = casual.ride_time.std()
+member_std_ride_time = member.ride_time.std()
+
+print(f"Casual mean ride time: {casual_mean_ride_time}")
+print(f"Member mean ride time: {member_mean_ride_time}")
+
+print(f"Casual std ride time: {casual_std_ride_time}")
+print(f"Member mean ride time: {member_std_ride_time}")
+```
+
+
+```python
+casual_sample = np.random.choice(casual.ride_time, 40)
+```
+
+
+```python
+np.random.seed(42)
+
+casual_sample_mean = casual_sample.mean()
+casual_sample_std = casual_sample.std()
+print(f"casual_sample mean: {casual_sample_mean}")
+print(f"casual_sample std: {casual_sample_std}")
+```
+
+
+```python
+np.random.seed(42)
+
+member_sample = np.random.choice(member.ride_time, 40)
+
+```
+
+
+```python
+
+member_sample_mean = member_sample.mean()
+member_sample_std = member_sample.std()
+print(f"member_sample mean: {member_sample_mean}")
+print(f"member_sample std: {member_sample_std}")
+```
+
+
+```python
+member_means = []
+
+for _ in range(1000):
+    new_sample = np.random.choice(member.ride_time, 40)
+    member_means.append(new_sample.mean())
+
+    
+```
+
+
+```python
+casual_means = []
+
+for _ in range(1000):
+    new_sample = np.random.choice(casual.ride_time, 40)
+    casual_means.append(new_sample.mean())
+
 ```
 
 # There are three ways we could calculate the Standard Error of the Mean
@@ -462,10 +509,6 @@ print(f"SEM Member: {sem_member}")
 print(f"SEM Casual: {sem_casual}")
 ```
 
-    SEM Member: 83.54752749322284
-    SEM Casual: 239.2514879527262
-
-
 
 ```python
 # 2. Calculate the standard error of the mean of both populations using the randomly generated samples
@@ -475,10 +518,6 @@ sem_casual = np.std(casual_means)
 print(f"Standard error of mean (member): {sem_member}")
 print(f"Standard error of mean (casual): {sem_casual}")
 ```
-
-    Standard error of mean (member): 82.83579266070582
-    Standard error of mean (casual): 241.2689116902536
-
 
 
 ```python
@@ -496,10 +535,3 @@ sem_approximate_member = member_sample_mean/np.sqrt(40)
 (casual_sample.mean() - np.mean(member_means))/sem_member
 
 ```
-
-
-
-
-    16.427850374703045
-
-
