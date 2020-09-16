@@ -362,6 +362,14 @@ ax.set_title("""Sample means of number of minutes\n between people entering a Pi
 ax.set_xlabel("Number of minutes between customers")
 ```
 
+# Group 4
+
+Suppose the San Francisco's Muni Metro system has an average weekday ridership of 160,000 people with a standard deviation of 10,000.  
+
+On the weekends, the ridership is 90,000 people with a standard deviation of 8,000.
+
+We can generate this bimodal distribution like so:
+
 # 3. Central Limit Theorem
 
 If we take repeated samples of a population, the sampling distribution of sample means will approximate to a normal distribution, no matter the underlying distribution!
